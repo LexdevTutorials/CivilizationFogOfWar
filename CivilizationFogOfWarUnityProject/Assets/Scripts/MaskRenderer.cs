@@ -147,6 +147,6 @@ public class MaskRenderer : MonoBehaviour
         //Execute the compute shader
         //Our thread group size is 8x8=64, 
         //thus we have to dispatch (TextureSize / 8) * (TextureSize / 8) thread groups
-        computeShader.Dispatch(0, TextureSize / 8, TextureSize / 8, 1);
+        computeShader.Dispatch(0, Mathf.CeilToInt(TextureSize / 8.0f), Mathf.CeilToInt(TextureSize / 8.0f), 1);
     }
 }
