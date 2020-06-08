@@ -8,7 +8,7 @@ float _Radius;
 float _Blend;
 
 //Buffer containing position (x,y) and visibility(z) of the cells
-StructuredBuffer<float3> _CellBuffer;
+StructuredBuffer<float> _CellBuffer;
 
 //Mask output texture
 RWTexture2D<float4> _Mask;
@@ -24,11 +24,11 @@ void CSMain (uint3 id : SV_DispatchThreadID)
     {
         //Calculate the texel and cell center position in uv space [0;1] and the distance between them
         float2 UVPos = id.xy / (float)_TextureSize;
-        float2 centerUVPos = float2(_CellBuffer[i].x, _CellBuffer[i].y) / _MapSize;
+        float2 centerUVPos = float2(_CellBuffer[3 * i], _CellBuffer[3 * i + 1]) / _MapSize;
         float UVDistance = length(UVPos - centerUVPos);
 
         //Calculate a smooth visibility value for the current cell
-        float val = smoothstep(_Radius + _Blend, _Radius, UVDistance) * _CellBuffer[i].z;
+        float val = smoothstep(_Radius + _Blend, _Radius, UVDistance) * _CellBuffer[3 * i + 2];
         //Add it to the result if there isn't already a higher visibility value for the current texel
         val = max(_Mask[id.xy].r, val);
         _Mask[id.xy] = float4(val, val, val, 1);
