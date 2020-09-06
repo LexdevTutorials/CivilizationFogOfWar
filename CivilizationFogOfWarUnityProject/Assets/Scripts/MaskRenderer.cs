@@ -87,7 +87,7 @@ public class MaskRenderer : MonoBehaviour
         cells = new List<GridCell>();
 
         //Create a new render texture for the mask
-        maskTexture = new RenderTexture(TextureSize, TextureSize, 0, RenderTextureFormat.ARGB32) 
+        maskTexture = new RenderTexture(TextureSize, TextureSize, 0, RenderTextureFormat.ARGB32, RenderTextureReadWrite.Linear) 
         { 
             enableRandomWrite = true 
         };
